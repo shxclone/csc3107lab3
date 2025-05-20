@@ -7,6 +7,7 @@ editor: visual
 ---
 
 # Visualizing the Distribution of Quantitative Data: Bill Lengths of Pygoscelis Penguins
+
 ```{r}
 #| label: load-libraries
 #| message: false
@@ -22,13 +23,14 @@ data("penguins", package = "palmerpenguins")
 ```
 
 ## 1.1 Remove Missing Values
+
 ```{r}
 #| label: remove-missing
 penguins_clean <- drop_na(penguins, bill_length_mm)
 ```
 
+## 1.2 Scatter Plot of Species versus Bill Length
 
-## 1.2 Scatter Plot of Species versus Bill Length 
 ```{r}
 #| label: scatter-plot
 #| echo: false
@@ -44,8 +46,19 @@ ggplot(penguins_clean, aes(x = bill_length_mm, y = species)) +
 ```
 
 ## 1.3 Why Should You Jitter the Plot?
+Many penguins share the same species and have similar or identical bill length values, which leads to overplotting. Jittering helps distinguish overlapping points, improving visibility and interpretation.
 
 ## 1.4 Jitter Plot
+```{r}
+ggplot(penguins_clean, aes(x = bill_length_mm, y = species)) +
+  geom_jitter(alpha = 0.6, width = 0, height = 0.2) +
+  labs(
+    title = "Jitter Plot of Bill Length by Species",
+    x = "Bill Length (mm)",
+    y = "Species",
+    caption = "Source: Gorman et al. (2014)"
+  )
+```
 
 ## 1.5 Bee-Swarm Plot
 
