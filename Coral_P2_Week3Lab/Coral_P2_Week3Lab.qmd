@@ -1,5 +1,5 @@
 ---
-title: "Week 3 Lab: Exploring ggplot2"
+title: "Coral_P2_Week3Lab"
 author: "`MIKO LIM YU HUI`, `TOH ZHENG YAN`, `LIM LIANG FAN`, `LIM JING CHUAN JONATHAN`, `HUANG WAN YING`, `TEE YU CHENG`, `ONG JIA EN DARRYL`"
 format: html
 date: "20 May 2025"
@@ -24,7 +24,7 @@ library(hexbin)
 data("penguins", package = "palmerpenguins")
 ```
 
-# Visualizing the Distribution of Quantitative Data: Bill Lengths of Pygoscelis Penguins
+# 1 Visualizing the Distribution of Quantitative Data: Bill Lengths of Pygoscelis Penguins
 
 ## 1.1 Remove Missing Values
 
