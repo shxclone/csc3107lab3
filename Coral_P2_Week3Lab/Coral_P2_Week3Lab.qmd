@@ -191,31 +191,13 @@ ggplot(penguins_clean, aes(x = bill_length_mm)) +
 
 ## 1.12 Unmarked Bonus Question: Pairwise 𝑡-Test
 
-> calculate the mean bill length for each species 
 
 ```{r}
-#| label: mean-bill-length
+penguins_clean %>%
+  group_by(species) %>%
+  summarise(mean_bill = mean(bill_length_mm, na.rm = TRUE))
 
-species_means <- penguins_clean |>
-  group_by(species) |>
-  summarise(mean_bill_length = mean(bill_length_mm, na.rm = TRUE)) |>
-  arrange(mean_bill_length)
+pairwise.t.test(penguins_clean$bill_length_mm, penguins_clean$species)
 
-print(species_means)
-```
-
-> perform a pairwise t-test to compare the bill lengths between species
-
-```{r}
-#| label: pairwise-t-test
-
-# Perform pairwise t-test
-pairwise_test <- pairwise.t.test(
-  penguins_clean$bill_length_mm, 
-  penguins_clean$species,
-  p.adjust.method = "bonferroni"
-)
-
-print(pairwise_test)
 ```
 
