@@ -6,13 +6,42 @@ date: "2025-05-20"
 editor: visual
 ---
 
-## \# Test
-
 # Visualizing the Distribution of Quantitative Data: Bill Lengths of Pygoscelis Penguins
+```{r}
+#| label: load-libraries
+#| message: false
+library(tidyverse)
+library(palmerpenguins)
+library(ggplot2)
+```
+
+```{r}
+#| label: load-data
+#| message: false
+data("penguins", package = "palmerpenguins")
+```
 
 ## 1.1 Remove Missing Values
+```{r}
+#| label: remove-missing
+penguins_clean <- drop_na(penguins, bill_length_mm)
+```
+
 
 ## 1.2 Scatter Plot of Species versus Bill Length 
+```{r}
+#| label: scatter-plot
+#| echo: false
+#| fig.width: 10
+#| fig.height: 6
+
+ggplot(penguins_clean, aes(x = bill_length_mm, y = species)) +
+  geom_point() +
+  labs(title = "Scatter Plot of Species vs. Bill Length",
+       x = "Bill Length (mm)",
+       y = "Species",
+       caption = "Gorman et al. (2014)")
+```
 
 ## 1.3 Why Should You Jitter the Plot?
 
