@@ -115,7 +115,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(palmerpenguins)</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(hexbin)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">"penguins"</span>, <span class="at">package =</span> <span class="st">"palmerpenguins"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -367,6 +368,283 @@ Gentoo    &lt;2e-16 0.0032
 P value adjustment method: holm </code></pre>
 </div>
 </div>
+</section>
+</section>
+<section id="find-a-data-set-to-demonstrate-mitigation-of-overplotting" class="level1">
+<h1>2 Find a Data Set to Demonstrate Mitigation of Overplotting</h1>
+<blockquote class="blockquote">
+<p>Use the “Diamonds” dataset included in the ggplot2 package.<br>
+This dataset contains prices and attributes of approximately 54,000 diamonds.<br>
+Create a subset that meets the required conditions.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the diamonds dataset (included in ggplot2)</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(diamonds)</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a meaningful subset with 400 observations</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>) <span class="co"># For reproducibility</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>diamonds_subset <span class="ot">&lt;-</span> diamonds <span class="sc">|&gt;</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">400</span>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first few rows</span></span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(diamonds_subset)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 10
+  carat cut   color clarity depth table price     x     y     z
+  &lt;dbl&gt; &lt;ord&gt; &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  0.73 Ideal I     VS1      60.7    56  2397  5.85  5.81  3.54
+2  0.7  Ideal G     VS1      60.8    56  3300  5.73  5.8   3.51
+3  0.31 Ideal D     VS1      61.6    55   713  4.3   4.33  2.66
+4  0.31 Ideal H     VVS1     62.2    56   707  4.34  4.37  2.71
+5  0.31 Ideal E     IF       60.9    55   987  4.39  4.41  2.68
+6  0.83 Good  E     SI1      63.7    59  3250  5.95  5.89  3.77</code></pre>
+</div>
+</div>
+<section id="data-source-and-description" class="level2">
+<h2 class="anchored" data-anchor-id="data-source-and-description">2.1 Data Source and Description</h2>
+<blockquote class="blockquote">
+<p>The diamonds dataset comes from the ggplot2 package and is a built-in dataset in R. It contains information about diamonds, including their carat weight, cut quality, color, clarity, price, and physical dimensions (depth, table, x, y, z). This dataset is particularly useful for examining relationships between diamond attributes and prices.</p>
+</blockquote>
+</section>
+<section id="validation-of-conditions" class="level2">
+<h2 class="anchored" data-anchor-id="validation-of-conditions">2.2 Validation of Conditions</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Condition C: Between 20 and 500 observations</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of observations:"</span>, <span class="fu">nrow</span>(diamonds_subset), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of observations: 400 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Condition D: At least two quantitative variables</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Quantitative variables: carat, price, depth, table, x, y, z</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Quantitative variables: carat, price, depth, table, x, y, z</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Condition E: At least one pair of data points with identical values</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Check for duplicate values in the carat and price columns</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>duplicate_points <span class="ot">&lt;-</span> diamonds_subset <span class="sc">|&gt;</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(carat, price) <span class="sc">|&gt;</span></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="st">"Number of duplicate points:"</span>, <span class="fu">nrow</span>(duplicate_points), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of duplicate points: 33 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If no duplicates are found in carat and price, check other combinations</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(duplicate_points) <span class="sc">==</span> <span class="dv">0</span>) {</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  duplicate_points <span class="ot">&lt;-</span> diamonds_subset <span class="sc">|&gt;</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(depth, table) <span class="sc">|&gt;</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">n</span>() <span class="sc">&gt;</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ungroup</span>()</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Number of duplicate points (depth &amp; table):"</span>, <span class="fu">nrow</span>(duplicate_points), <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="fu">nrow</span>(duplicate_points) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"Sample of duplicate points:</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">print</span>(<span class="fu">head</span>(duplicate_points))</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sample of duplicate points:
+# A tibble: 6 × 10
+  carat cut       color clarity depth table price     x     y     z
+  &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1  0.32 Ideal     D     VS2      62.2    55   758  4.37  4.41  2.73
+2  0.31 Ideal     D     VS2      61.5    56   734  4.37  4.41  2.7 
+3  0.31 Good      E     SI1      63.9    56   698  4.31  4.27  2.74
+4  0.35 Ideal     G     IF       62.3    55  1116  4.52  4.5   2.81
+5  0.34 Ideal     G     VS2      62      54   596  4.47  4.5   2.78
+6  0.34 Very Good E     SI1      59      60   596  4.56  4.62  2.71</code></pre>
+</div>
+</div>
+</section>
+<section id="scatter-plot-with-geom_point" class="level2">
+<h2 class="anchored" data-anchor-id="scatter-plot-with-geom_point">2.3 Scatter Plot with geom_point()</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds_subset, <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Relationship between Diamond Carat Weight and Price"</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Carat"</span>,</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Price (USD)"</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: ggplot2 diamonds dataset"</span></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week3Lab_files/figure-html/basic-scatter-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mitigating-overplotting" class="level2">
+<h2 class="anchored" data-anchor-id="mitigating-overplotting">2.4 Mitigating Overplotting</h2>
+<section id="method-1-alpha-transparency-with-point-size-adjustment" class="level3">
+<h3 class="anchored" data-anchor-id="method-1-alpha-transparency-with-point-size-adjustment">Method 1: Alpha Transparency with Point Size Adjustment</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds_subset, <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>, <span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Diamond Carat vs. Price with Alpha Transparency"</span>,</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Carat"</span>,</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Price (USD)"</span>,</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: ggplot2 diamonds dataset"</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week3Lab_files/figure-html/alpha-size-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Simple to implement and intuitive to understand</li>
+<li>Preserves all data points while making overlaps visible through transparency</li>
+<li>Increasing point size makes individual points more visible</li>
+<li>No distortion of the true values (unlike jittering)</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>In areas of high density, even with transparency, points can still overlap significantly</li>
+<li>Larger point sizes can create more visual clutter</li>
+<li>Does not quantify the degree of overplotting precisely</li>
+<li>Limited effectiveness for very large datasets</li>
+</ul>
+</blockquote>
+</section>
+<section id="method-2-hexagonal-binning" class="level3">
+<h3 class="anchored" data-anchor-id="method-2-hexagonal-binning">Method 2: Hexagonal Binning</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds_subset, <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hex</span>(<span class="at">bins =</span> <span class="dv">15</span>) <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>() <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Diamond Carat vs. Price with Hexagonal Binning"</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Carat"</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Price (USD)"</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Count"</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: ggplot2 diamonds dataset"</span></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week3Lab_files/figure-html/hexbin-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Advantages:</strong></p>
+<ul>
+<li>Effectively summarizes dense regions with color-coded bins</li>
+<li>Provides a clear visual representation of point density</li>
+<li>Works well for large datasets where individual points are less important</li>
+<li>The hexagonal shape efficiently tiles the plane without visual artifacts</li>
+</ul>
+<p><strong>Disadvantages:</strong></p>
+<ul>
+<li>Individual data points are not represented</li>
+<li>Requires careful selection of bin size</li>
+<li>Can be less intuitive for audiences unfamiliar with this visualization type</li>
+<li>May hide specific outliers or interesting individual observations</li>
+</ul>
+</blockquote>
+</section>
+</section>
+<section id="visualizing-trends" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-trends">2.5 Visualizing Trends</h2>
+<section id="method-1-smoothing-interpolations" class="level3">
+<h3 class="anchored" data-anchor-id="method-1-smoothing-interpolations">Method 1: Smoothing Interpolations</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds_subset, <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price)) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"gam"</span>, <span class="at">se =</span> <span class="cn">TRUE</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Diamond Carat vs. Price with GAM Smoothing"</span>,</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Carat"</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Price (USD)"</span>,</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: ggplot2 diamonds dataset"</span></span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week3Lab_files/figure-html/gam-smoothing-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Strengths:</strong></p>
+<ul>
+<li>Generalized Additive Models (GAM) are excellent at capturing non-linear relationships</li>
+<li>Provides confidence intervals to show uncertainty in the trend</li>
+<li>More flexible than linear models but less prone to overfitting than LOESS for larger datasets</li>
+<li>Good at revealing the overall trend while being robust to outliers</li>
+</ul>
+<p><strong>Weaknesses:</strong></p>
+<ul>
+<li>Requires the mgcv package (which is automatically loaded by geom_smooth)</li>
+<li>The mathematical basis might be harder to explain to non-statistical audiences</li>
+<li>Default parameter settings might not always be optimal</li>
+<li>Computationally more intensive than simple linear models</li>
+</ul>
+</blockquote>
+</section>
+<section id="method-2-faceted-smoothing-by-cut-quality" class="level3">
+<h3 class="anchored" data-anchor-id="method-2-faceted-smoothing-by-cut-quality">Method 2: Faceted Smoothing by Cut Quality</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds_subset, <span class="fu">aes</span>(<span class="at">x =</span> carat, <span class="at">y =</span> price, <span class="at">color =</span> cut)) <span class="sc">+</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> cut) <span class="sc">+</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Diamond Carat vs. Price by Cut Quality"</span>,</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Carat"</span>,</span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Price (USD)"</span>,</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Cut Quality"</span>,</span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: ggplot2 diamonds dataset"</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb39-12"><a href="#cb39-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb39-13"><a href="#cb39-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>`geom_smooth()` using formula = 'y ~ x'</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week3Lab_files/figure-html/facet-smoothing-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Strengths:</strong></p>
+<ul>
+<li>Separating by groups (cut quality) reveals how price-carat relationships vary by diamond quality</li>
+<li>Allows comparison of trends across different categories</li>
+<li>Faceting creates cleaner, less cluttered individual plots</li>
+<li>Provides a multi-dimensional analysis in an organized layout</li>
+</ul>
+<p><strong>Weaknesses:</strong></p>
+<ul>
+<li>Direct comparison between facets requires more cognitive effort</li>
+<li>Reduced plot size for each facet may obscure details</li>
+<li>Uses more space on the page</li>
+<li>The scales across facets are the same, which might not be ideal if groups have vastly different ranges</li>
+</ul>
+</blockquote>
+</section>
 </section>
 </section>
 

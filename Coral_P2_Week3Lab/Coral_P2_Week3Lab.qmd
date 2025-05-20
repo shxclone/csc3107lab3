@@ -15,6 +15,7 @@ library(tidyverse)
 library(palmerpenguins)
 library(ggbeeswarm)
 library(ggplot2)
+library(hexbin)
 ```
 
 ```{r}
@@ -201,3 +202,202 @@ pairwise.t.test(penguins_clean$bill_length_mm, penguins_clean$species)
 
 ```
 
+# 2 Find a Data Set to Demonstrate Mitigation of Overplotting
+
+> Use the "Diamonds" dataset included in the ggplot2 package.  
+> This dataset contains prices and attributes of approximately 54,000 diamonds.  
+> Create a subset that meets the required conditions.  
+
+```{r load-diamonds-data}
+#| label: load-diamonds-data
+
+# Load the diamonds dataset (included in ggplot2)
+data(diamonds)
+
+# Create a meaningful subset with 400 observations
+set.seed(123) # For reproducibility
+diamonds_subset <- diamonds |>
+  slice_sample(n = 400)
+
+# Display the first few rows
+head(diamonds_subset)
+```
+
+## 2.1 Data Source and Description
+>  The diamonds dataset comes from the ggplot2 package and is a built-in dataset in R. It contains information about diamonds, including their carat weight, cut quality, color, clarity, price, and physical dimensions (depth, table, x, y, z). This dataset is particularly useful for examining relationships between diamond attributes and prices.
+
+## 2.2 Validation of Conditions
+```{r validate-conditions}
+#| label: validate-conditions
+
+# Condition C: Between 20 and 500 observations
+cat("Number of observations:", nrow(diamonds_subset), "\n")
+
+# Condition D: At least two quantitative variables
+cat("Quantitative variables: carat, price, depth, table, x, y, z\n")
+
+# Condition E: At least one pair of data points with identical values
+# Check for duplicate values in the carat and price columns
+duplicate_points <- diamonds_subset |>
+  group_by(carat, price) |>
+  filter(n() > 1) |>
+  ungroup()
+
+cat("Number of duplicate points:", nrow(duplicate_points), "\n")
+
+# If no duplicates are found in carat and price, check other combinations
+if (nrow(duplicate_points) == 0) {
+  duplicate_points <- diamonds_subset |>
+    group_by(depth, table) |>
+    filter(n() > 1) |>
+    ungroup()
+  
+  cat("Number of duplicate points (depth & table):", nrow(duplicate_points), "\n")
+}
+
+if (nrow(duplicate_points) > 0) {
+  cat("Sample of duplicate points:\n")
+  print(head(duplicate_points))
+}
+```
+
+## 2.3 Scatter Plot with geom_point()
+
+```{r scatter-plot-diamonds}
+#| label: basic-scatter-plot
+
+ggplot(diamonds_subset, aes(x = carat, y = price)) +
+  geom_point() +
+  labs(
+    title = "Relationship between Diamond Carat Weight and Price",
+    x = "Carat",
+    y = "Price (USD)",
+    caption = "Source: ggplot2 diamonds dataset"
+  ) +
+  theme_minimal()
+```
+
+## 2.4 Mitigating Overplotting
+### Method 1: Alpha Transparency with Point Size Adjustment
+```{r alpha-size}
+#| label: alpha-size
+
+ggplot(diamonds_subset, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.6, size = 2) +
+  labs(
+    title = "Diamond Carat vs. Price with Alpha Transparency",
+    x = "Carat",
+    y = "Price (USD)",
+    caption = "Source: ggplot2 diamonds dataset"
+  ) +
+  theme_minimal()
+```
+
+> **Advantages:**  
+>  
+>   - Simple to implement and intuitive to understand
+>   - Preserves all data points while making overlaps visible through transparency
+>   - Increasing point size makes individual points more visible
+>   - No distortion of the true values (unlike jittering)
+>  
+> **Disadvantages:**
+>  
+>   - In areas of high density, even with transparency, points can still overlap significantly
+>   - Larger point sizes can create more visual clutter
+>   - Does not quantify the degree of overplotting precisely
+>   - Limited effectiveness for very large datasets
+
+### Method 2: Hexagonal Binning
+```{r hexagonal-binning}
+#| label: hexbin
+
+ggplot(diamonds_subset, aes(x = carat, y = price)) +
+  geom_hex(bins = 15) +
+  scale_fill_viridis_c() +
+  labs(
+    title = "Diamond Carat vs. Price with Hexagonal Binning",
+    x = "Carat",
+    y = "Price (USD)",
+    fill = "Count",
+    caption = "Source: ggplot2 diamonds dataset"
+  ) +
+  theme_minimal()
+```
+
+> **Advantages:**  
+>  
+>   - Effectively summarizes dense regions with color-coded bins
+>   - Provides a clear visual representation of point density
+>   - Works well for large datasets where individual points are less important
+>   - The hexagonal shape efficiently tiles the plane without visual artifacts
+>  
+> **Disadvantages:**
+>  
+>   - Individual data points are not represented
+>   - Requires careful selection of bin size
+>   - Can be less intuitive for audiences unfamiliar with this visualization type
+>   - May hide specific outliers or interesting individual observations
+
+## 2.5 Visualizing Trends 
+### Method 1: Smoothing Interpolations
+```{r smoothing-interpolation}
+#| label: gam-smoothing
+
+ggplot(diamonds_subset, aes(x = carat, y = price)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "gam", se = TRUE, color = "blue") +
+  labs(
+    title = "Diamond Carat vs. Price with GAM Smoothing",
+    x = "Carat",
+    y = "Price (USD)",
+    caption = "Source: ggplot2 diamonds dataset"
+  ) +
+  theme_minimal()
+```
+
+> **Strengths:**  
+>  
+>   - Generalized Additive Models (GAM) are excellent at capturing non-linear relationships
+>   - Provides confidence intervals to show uncertainty in the trend
+>   - More flexible than linear models but less prone to overfitting than LOESS for larger datasets
+>   - Good at revealing the overall trend while being robust to outliers
+>  
+> **Weaknesses:**
+>  
+>   - Requires the mgcv package (which is automatically loaded by geom_smooth)
+>   - The mathematical basis might be harder to explain to non-statistical audiences
+>   - Default parameter settings might not always be optimal
+>   - Computationally more intensive than simple linear models
+
+### Method 2: Faceted Smoothing by Cut Quality
+```{r faceted-smoothing}
+#| label: facet-smoothing
+
+ggplot(diamonds_subset, aes(x = carat, y = price, color = cut)) +
+  geom_point(alpha = 0.4) +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~ cut) +
+  labs(
+    title = "Diamond Carat vs. Price by Cut Quality",
+    x = "Carat",
+    y = "Price (USD)",
+    color = "Cut Quality",
+    caption = "Source: ggplot2 diamonds dataset"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "bottom")
+```
+
+> **Strengths:**
+>  
+>   - Separating by groups (cut quality) reveals how price-carat relationships vary by diamond quality
+>   - Allows comparison of trends across different categories
+>   - Faceting creates cleaner, less cluttered individual plots
+>   - Provides a multi-dimensional analysis in an organized layout
+>  
+> **Weaknesses:**  
+>  
+>   - Direct comparison between facets requires more cognitive effort
+>   - Reduced plot size for each facet may obscure details
+>   - Uses more space on the page
+>   - The scales across facets are the same, which might not be ideal if groups have vastly different ranges
