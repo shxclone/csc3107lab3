@@ -6,13 +6,14 @@ date: "2025-05-20"
 editor: visual
 ---
 
-# Visualizing the Distribution of Quantitative Data: Bill Lengths of Pygoscelis Penguins
-
 ```{r}
 #| label: load-libraries
 #| message: false
+
+# Load necessary packages
 library(tidyverse)
 library(palmerpenguins)
+library(ggbeeswarm)
 library(ggplot2)
 ```
 
@@ -22,11 +23,19 @@ library(ggplot2)
 data("penguins", package = "palmerpenguins")
 ```
 
+# Visualizing the Distribution of Quantitative Data: Bill Lengths of Pygoscelis Penguins
+
 ## 1.1 Remove Missing Values
 
 ```{r}
 #| label: remove-missing
+
 penguins_clean <- drop_na(penguins, bill_length_mm)
+
+# Check how many rows were removed
+cat("Original dataset size:", nrow(penguins), "\n")
+cat("Clean dataset size:", nrow(penguins_clean), "\n")
+cat("Number of rows removed:", nrow(penguins) - nrow(penguins_clean))
 ```
 
 ## 1.2 Scatter Plot of Species versus Bill Length
@@ -46,32 +55,167 @@ ggplot(penguins_clean, aes(x = bill_length_mm, y = species)) +
 ```
 
 ## 1.3 Why Should You Jitter the Plot?
-Many penguins share the same species and have similar or identical bill length values, which leads to overplotting. Jittering helps distinguish overlapping points, improving visibility and interpretation.
+
+```{r}
+#| label: duplicates
+
+# Count occurrences of each bill length within each species
+bill_length_counts <- penguins_clean |>
+  group_by(species, bill_length_mm) |>
+  summarise(count = n(), .groups = "drop") |>
+  filter(count > 1) |>
+  arrange(desc(count))
+
+# Display cases where multiple penguins have the same bill length within a species
+print(bill_length_counts)
+
+# Count how many points would overlap in our plot
+overlapping_points <- sum(bill_length_counts$count)
+total_points <- nrow(penguins_clean)
+overlap_percentage <- overlapping_points / total_points * 100
+
+cat("Number of overlapping points:", overlapping_points, "\n")
+cat("Percentage of dataset with overlapping points:", round(overlap_percentage, 2), "%")
+```
+
+> The table above shows instances where multiple penguins of the same species have identical bill lengths. This would result in overlapping points on our scatter plot, making it difficult to see the true distribution of the data. This is why jittering the plot would be beneficial - it adds a small amount of random noise to the position of each point to prevent overlap.
 
 ## 1.4 Jitter Plot
+
 ```{r}
+#| label: jitter-plot
+
 ggplot(penguins_clean, aes(x = bill_length_mm, y = species)) +
   geom_jitter(alpha = 0.6, width = 0, height = 0.2) +
   labs(
-    title = "Jitter Plot of Bill Length by Species",
+    title = "Bill Length by Penguin Species (Jittered)",
     x = "Bill Length (mm)",
     y = "Species",
     caption = "Source: Gorman et al. (2014)"
-  )
+  ) +
+  theme_minimal()
 ```
 
 ## 1.5 Bee-Swarm Plot
 
+```{r}
+#| label: beeswarm-plot
+
+ggplot(penguins_clean, aes(x = bill_length_mm, y = species)) +
+  geom_beeswarm() +
+  labs(
+    title = "Bill Length by Penguin Species (Bee-swarm)",
+    x = "Bill Length (mm)",
+    y = "Species",
+    caption = "Source: Gorman et al. (2014)"
+  ) +
+  theme_minimal()
+```
+
 ## 1.6 Pros and Cons of Bee-Swarm Plots
+
+> **Advantage of bee-swarm plot:**  
+> Unlike jitter plots where points are randomly displaced, bee-swarm plots position points in a deterministic way that prevents overlapping. This allows viewers to see each individual data point while still maintaining the accurate distribution of bill lengths along the x-axis. The density of points at any given x-value directly represents the frequency of that value.
+>  
+> **Disadvantage of bee-swarm plot:**  
+> Bee-swarm plots can take up more vertical space than jitter plots when there are many overlapping values, which can make them less space-efficient. Additionally, for very large datasets, bee-swarm plots might become visually cluttered and computationally intensive to render.
 
 ## 1.7 Violin Plot with Boxes
 
+```{r}
+#| label: violin-box-plot
+
+ggplot(penguins_clean, aes(x = bill_length_mm, y = species)) +
+  geom_violin() +
+  geom_boxplot(width = 0.2, fill = "white", alpha = 0.7) +
+  labs(
+    title = "Distribution of Bill Length by Penguin Species",
+    x = "Bill Length (mm)",
+    y = "Species",
+    caption = "Source: Gorman et al. (2014)"
+  ) +
+  theme_minimal()
+```
+
 ## 1.8 What Does a Violin Plot Add to a Box Plot?
+
+> A violin plot provides additional information that is not directly visible in a box plot:  
+>  
+>   1. The violin plot shows the full probability density of the data across all values, revealing nuances in the distribution such as bimodality, skewness, or multiple peaks that are not visible in a box plot.
+>   2. While a box plot only shows five summary statistics (minimum, first quartile, median, third quartile, maximum), the violin plot shows the density estimate at every point along the range of values, giving a more complete picture of where data points are concentrated.
+>   3. The width of the violin at any given point represents the density of data at that value, making it easier to visualize exactly where most observations cluster, which cannot be determined from a box plot alone.
 
 ## 1.9 Frequency Polygons with Rug Plot
 
+```{r}
+#| label: frequency-polygon-rug
+
+ggplot(penguins_clean, aes(x = bill_length_mm, color = species)) +
+  geom_freqpoly(binwidth = 1) +
+  geom_rug(alpha = 0.5) +
+  labs(
+    title = "Frequency Distribution of Bill Length by Penguin Species",
+    x = "Bill Length (mm)",
+    y = "Count",
+    color = "Species",
+    caption = "Source: Gorman et al. (2014)"
+  ) +
+  theme_minimal()
+```
+
 ## 1.10 Faceted Frequency Polygons with Rug Plots
+
+```{r}
+#| label: faceted-frequency-polygon
+
+ggplot(penguins_clean, aes(x = bill_length_mm)) +
+  geom_freqpoly(binwidth = 1) +
+  geom_rug(alpha = 0.7) +
+  facet_wrap(~ species, ncol = 1) +
+  labs(
+    title = "Frequency Distribution of Bill Length by Penguin Species",
+    x = "Bill Length (mm)",
+    y = "Count",
+    caption = "Source: Gorman et al. (2014)"
+  ) +
+  theme_minimal()
+```
 
 ## 1.11 Pros and Cons of Faceting
 
+> **Strength of faceted plot:**  
+> Each species is displayed in its own panel with its own y-axis scale, which makes it easier to see the distribution within each species independently. This is particularly valuable when the counts or frequencies differ substantially between groups, as the shape of the distribution for species with fewer observations is not visually dominated by species with more observations.
+>  
+> **Weakness of faceted plot:**  
+> Direct comparison between species is more difficult in the faceted plot because they're in separate panels with different scales. In the non-faceted plot (1.9), it's easier to immediately see how the distributions overlap and compare their positions relative to each other on the x-axis. Additionally, faceting takes up more space on the page, which can be inefficient for simple comparisons.
+
 ## 1.12 Unmarked Bonus Question: Pairwise 𝑡-Test
+
+> calculate the mean bill length for each species 
+
+```{r}
+#| label: mean-bill-length
+
+species_means <- penguins_clean |>
+  group_by(species) |>
+  summarise(mean_bill_length = mean(bill_length_mm, na.rm = TRUE)) |>
+  arrange(mean_bill_length)
+
+print(species_means)
+```
+
+> perform a pairwise t-test to compare the bill lengths between species
+
+```{r}
+#| label: pairwise-t-test
+
+# Perform pairwise t-test
+pairwise_test <- pairwise.t.test(
+  penguins_clean$bill_length_mm, 
+  penguins_clean$species,
+  p.adjust.method = "bonferroni"
+)
+
+print(pairwise_test)
+```
+
