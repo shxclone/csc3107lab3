@@ -1,0 +1,10 @@
+---
+title: "Week 3 Lab: Exploring ggplot2"
+author: "Coral Team"
+format: html
+date: "2025-05-20"
+editor: visual
+---
+
+# Test
+---
