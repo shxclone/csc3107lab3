@@ -6,5 +6,30 @@ date: "2025-05-20"
 editor: visual
 ---
 
-# Test
----
+## \# Test
+
+# Visualizing the Distribution of Quantitative Data: Bill Lengths of Pygoscelis Penguins
+
+## 1.1 Remove Missing Values
+
+## 1.2 Scatter Plot of Species versus Bill Length 
+
+## 1.3 Why Should You Jitter the Plot?
+
+## 1.4 Jitter Plot
+
+## 1.5 Bee-Swarm Plot
+
+## 1.6 Pros and Cons of Bee-Swarm Plots
+
+## 1.7 Violin Plot with Boxes
+
+## 1.8 What Does a Violin Plot Add to a Box Plot?
+
+## 1.9 Frequency Polygons with Rug Plot
+
+## 1.10 Faceted Frequency Polygons with Rug Plots
+
+## 1.11 Pros and Cons of Faceting
+
+## 1.12 Unmarked Bonus Question: Pairwise 𝑡-Test
