@@ -1,8 +1,8 @@
 ---
 title: "Week 3 Lab: Exploring ggplot2"
-author: "Coral Team"
+author: "`MIKO LIM YU HUI`, `TOH ZHENG YAN`, `LIM LIANG FAN`, `LIM JING CHUAN JONATHAN`, `HUANG WAN YING`, `TEE YU CHENG`, `ONG JIA EN DARRYL`"
 format: html
-date: "2025-05-20"
+date: "20 May 2025"
 editor: visual
 ---
 
@@ -401,3 +401,19 @@ ggplot(diamonds_subset, aes(x = carat, y = price, color = cut)) +
 >   - Reduced plot size for each facet may obscure details
 >   - Uses more space on the page
 >   - The scales across facets are the same, which might not be ideal if groups have vastly different ranges
+
+# 3 Reflections
+## 3.1 Key Takeaway
+> Our team's key takeaway from today's lab was <u>**understanding the importance of choosing appropriate visualization techniques to address overplotting issues**</u>. We were particularly impressed by how bee-swarm plots and violin plots can reveal distribution nuances that simple scatter plots might hide. This stood out because it demonstrated how thoughtful visualization choices can dramatically improve data interpretability without altering the underlying data.
+
+## 3.2 Challenges
+> We found it challenging to determine <u>**which visualization method was most appropriate**</u> for specific datasets and analytical questions. Particularly when working with the diamonds dataset, deciding between ***hexagonal binning*** versus ***alpha transparency*** involved trade-offs between preserving individual data points and showing overall density patterns. Understanding when to sacrifice individual data representation for aggregate patterns required careful consideration of our analytical goals.
+
+## 3.3 AI Assistance
+> We used **ChatGPT** and **Claude** to help explain some of the statistical concepts behind visualization choices, particularly for understanding the mathematical foundations of GAM smoothing compared to other smoothing methods. The AI helped us articulate the pros and cons of various overplotting solutions in clearer language and suggested effective ways to structure our comparative analysis between visualization techniques.
+
+## 3.4 Teamwork
+> Our team collaborated effectively by dividing tasks based on individual strengths—some members focused on code implementation while others concentrated on interpretation and reflection writing. Our main strength was maintaining open communication about visualization choices and actively discussing the meaning behind the visualizations rather than just implementing them. An area for improvement would be establishing a more structured approach to peer review our code and interpretations before finalizing them, as some inconsistencies in style and explanation depth were noticed only during the final compilation.
+
+## 3.5 Additional Feedback
+> This module effectively balanced technical implementation with conceptual understanding. We appreciated how the lab encouraged us to think critically about visualization choices rather than simply following prescribed steps. For future labs, it might be beneficial to include a brief section on how these visualization techniques could be applied to real-world data science problems or case studies from different industries to help contextualize their practical applications.
