@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Team Coral">
+<meta name="author" content="MIKO LIM YU HUI, TOH ZHENG YAN, LIM LIANG FAN, LIM JING CHUAN JONATHAN, HUANG WAN YING, TEE YU CHENG, ONG JIA EN DARRYL">
+<meta name="dcterms.date" content="2025-05-27">
 
-<title>Team Coral_P2_Week 4 Lab</title>
+<title>Coral_P2_Week4Lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -80,7 +81,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Team Coral_P2_Week 4 Lab</h1>
+<h1 class="title">Coral_P2_Week4Lab</h1>
 </div>
 
 
@@ -90,10 +91,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Team Coral </p>
+             <p><code>MIKO LIM YU HUI</code>, <code>TOH ZHENG YAN</code>, <code>LIM LIANG FAN</code>, <code>LIM JING CHUAN JONATHAN</code>, <code>HUANG WAN YING</code>, <code>TEE YU CHENG</code>, <code>ONG JIA EN DARRYL</code> </p>
           </div>
   </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 27, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -121,18 +128,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="visualizing-the-distribution-of-travelers-on-the-titanic" class="level1">
 <h1>1 Visualizing the Distribution of Travelers on the Titanic</h1>
-<<<<<<< HEAD
-<p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
-<section id="bar-chart-of-travelers-by-class" class="level2">
-<h2 class="anchored" data-anchor-id="bar-chart-of-travelers-by-class">1.1 Bar Chart of Travelers by Class</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"titanic.csv"</span>)</span>
-=======
 <section id="bar-chart-of-travelers-by-class" class="level2">
 <h2 class="anchored" data-anchor-id="bar-chart-of-travelers-by-class">1.1 Bar Chart of Travelers by Class</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/titanic.csv"</span>)</span>
->>>>>>> refs/remotes/origin/main
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>titanic_count <span class="ot">&lt;-</span> titanic <span class="sc">%&gt;%</span> <span class="fu">count</span>(class)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(titanic_count, <span class="fu">aes</span>(<span class="at">x =</span> class, <span class="at">y =</span> n)) <span class="sc">+</span></span>
@@ -207,7 +206,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="Coral_P2_Week4Lab_files/figure-html/heatmap-alternative-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
-<<<<<<< HEAD
 </div>
 </div>
 </section>
@@ -257,8 +255,6 @@ $ continent                      &lt;chr&gt; "Asia", "Europe", "Africa", "Europe
 $ population                     &lt;dbl&gt; 41128772, 2842318, 44903228, 79843, 355…
 $ total_cases_per_million        &lt;dbl&gt; 5677.22, 118152.58, 5946.38, 602280.44,…
 $ total_vaccinations_per_hundred &lt;dbl&gt; 55.84, 108.68, 34.00, 196.73, 78.17, 15…</code></pre>
-=======
->>>>>>> refs/remotes/origin/main
 </div>
 </div>
 <div class="cell">
@@ -297,6 +293,26 @@ $ total_vaccinations_per_hundred &lt;dbl&gt; 55.84, 108.68, 34.00, 196.73, 78.17
 <section id="e.-state-the-main-insight-or-conclusion-the-reader-should-draw-from-your-visualization." class="level2">
 <h2 class="anchored" data-anchor-id="e.-state-the-main-insight-or-conclusion-the-reader-should-draw-from-your-visualization.">e. State the main insight or conclusion the reader should draw from your visualization.</h2>
 <p>The plot reveals a general trend that countries with higher vaccination rates tend to have varied case numbers, but continent-specific clusters appear—suggesting regional differences in pandemic dynamics and vaccine rollout. Additionally, larger countries (indicated by point size) show diverse pandemic outcomes, highlighting the complex relationship between population size, case counts, and vaccination coverage.</p>
+</section>
+</section>
+<section id="reflections" class="level1">
+<h1>3 Reflections</h1>
+<section id="key-takeaway-what-is-one-thing-you-learned-in-todays-lab-explain-why-this-point-stood-out-to-you" class="level2">
+<h2 class="anchored" data-anchor-id="key-takeaway-what-is-one-thing-you-learned-in-todays-lab-explain-why-this-point-stood-out-to-you">1. Key takeaway: What is one thing you learned in today’s lab? Explain why this point stood out to you</h2>
+<p>We learned how to effectively combine multiple aesthetic mappings (color and size) in a single ggplot2 visualization to reveal complex relationships in real-world data. This stood out because it demonstrated how to encode multiple dimensions visually while maintaining clarity.</p>
+</section>
+<section id="challenges-what-did-you-find-confusing-or-difficult" class="level2">
+<h2 class="anchored" data-anchor-id="challenges-what-did-you-find-confusing-or-difficult">2. Challenges: What did you find confusing or difficult?</h2>
+<p>Filtering the dataset to include only the latest, complete records per country was tricky, especially handling missing values in a time series dataset. Understanding how to clean the data for accurate plotting took some effort.</p>
+</section>
+<section id="ai-assistance-if-you-used-any-generative-ai-tools-e.g.-chatgpt-or-github-copilot-explain-how-they-helped" class="level2">
+<h2 class="anchored" data-anchor-id="ai-assistance-if-you-used-any-generative-ai-tools-e.g.-chatgpt-or-github-copilot-explain-how-they-helped">3. AI assistance: If you used any generative AI tools (e.g., ChatGPT or GitHub Copilot), explain how they helped</h2>
+<p>We used ChatGPT to help us better understand the rationale behind mapping population size to point size and continent to color in our plot. The AI helped clarify the perceptual and statistical reasoning for these choices and provided guidance on how to explain these concepts clearly in our assignment.</p>
+</section>
+<section id="teamwork-how-did-your-team-collaborate-on-this-assignment-identify-one-strength-and-one-area-for-improvement" class="level2">
+<h2 class="anchored" data-anchor-id="teamwork-how-did-your-team-collaborate-on-this-assignment-identify-one-strength-and-one-area-for-improvement">4. Teamwork: How did your team collaborate on this assignment? Identify one strength and one area for improvement</h2>
+<p>Our team communicated well, dividing tasks like data sourcing and coding, which made the work efficient. One area to improve is better coordination on troubleshooting data issues earlier in the process.</p>
+<p>##5. Additional feedback (optional): Any other comments on this module or the exercise This exercise was valuable for applying data wrangling and visualization skills in RStudio with Quarto</p>
 </section>
 </section>
 
