@@ -2,14 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.5.57">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="MIKO LIM YU HUI, TOH ZHENG YAN, LIM LIANG FAN, LIM JING CHUAN JONATHAN, HUANG WAN YING, TEE YU CHENG, ONG JIA EN DARRYL">
-<meta name="dcterms.date" content="2025-05-27">
+<meta name="author" content="Team Coral">
 
-<title>Coral_P2_Week4Lab</title>
+<title>Team Coral_P2_Week 4 Lab</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -65,10 +64,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="Coral_P2_Week4Lab_files/libs/quarto-html/tippy.umd.min.js"></script>
 <script src="Coral_P2_Week4Lab_files/libs/quarto-html/anchor.min.js"></script>
 <link href="Coral_P2_Week4Lab_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="Coral_P2_Week4Lab_files/libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="Coral_P2_Week4Lab_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="Coral_P2_Week4Lab_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="Coral_P2_Week4Lab_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="Coral_P2_Week4Lab_files/libs/bootstrap/bootstrap-1bc8a17f135ab3d594c857e9f48e611b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="Coral_P2_Week4Lab_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -81,7 +80,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Coral_P2_Week4Lab</h1>
+<h1 class="title">Team Coral_P2_Week 4 Lab</h1>
 </div>
 
 
@@ -91,16 +90,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p><code>MIKO LIM YU HUI</code>, <code>TOH ZHENG YAN</code>, <code>LIM LIANG FAN</code>, <code>LIM JING CHUAN JONATHAN</code>, <code>HUANG WAN YING</code>, <code>TEE YU CHENG</code>, <code>ONG JIA EN DARRYL</code> </p>
+             <p>Team Coral </p>
           </div>
   </div>
     
-    <div>
-    <div class="quarto-title-meta-heading">Published</div>
-    <div class="quarto-title-meta-contents">
-      <p class="date">May 27, 2025</p>
-    </div>
-  </div>
   
     
   </div>
@@ -111,73 +104,189 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load necessary packages</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggmosaic)  <span class="co"># For mosaic plots</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)     <span class="co"># For reading CSV files</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)      <span class="co"># For file paths</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Set theme for consistent plotting</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_set</span>(<span class="fu">theme_minimal</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="section-1-visualizing-the-distribution-of-travelers-on-the-titanic" class="level1">
-<h1>Section 1: Visualizing the Distribution of Travelers on the Titanic</h1>
-<section id="load-the-titanic-data" class="level2">
-<h2 class="anchored" data-anchor-id="load-the-titanic-data">Load the Titanic Data</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the Titanic dataset</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace with the actual URL from Prof. Gastner's website</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>titanic_url <span class="ot">&lt;-</span> <span class="st">"titanic.csv"</span>  <span class="co"># URL which contains the csv data</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(titanic_url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">message =</span> <span class="cn">FALSE</span>, <span class="at">warning =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 2208 Columns: 14
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (9): fam_name, given_name, class, sex, ticket, embarkation_port, profess...
-dbl (3): id, age, recovered_body
-lgl (2): survived, certain_on_lifeboat
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.5.2     ✔ tibble    3.2.1
+✔ lubridate 1.9.4     ✔ tidyr     1.3.1
+✔ purrr     1.0.4     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># If you have the file locally, use:</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># titanic &lt;- read_csv("titanic.csv")</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine the structure of the data</span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(titanic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="visualizing-the-distribution-of-travelers-on-the-titanic" class="level1">
+<h1>1 Visualizing the Distribution of Travelers on the Titanic</h1>
+<p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
+<section id="bar-chart-of-travelers-by-class" class="level2">
+<h2 class="anchored" data-anchor-id="bar-chart-of-travelers-by-class">1.1 Bar Chart of Travelers by Class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"titanic.csv"</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>titanic_count <span class="ot">&lt;-</span> titanic <span class="sc">%&gt;%</span> <span class="fu">count</span>(class)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(titanic_count, <span class="fu">aes</span>(<span class="at">x =</span> class, <span class="at">y =</span> n)) <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n), <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Number of Travelers by Class"</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Source: Encyclopedia Titanica (2023)"</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week4Lab_files/figure-html/bar-chart-class-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="dodged-bar-chart-of-travelers-by-class-and-survival" class="level2">
+<h2 class="anchored" data-anchor-id="dodged-bar-chart-of-travelers-by-class-and-survival">1.2 Dodged Bar Chart of Travelers by Class and Survival</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>titanic_survived <span class="ot">&lt;-</span> titanic <span class="sc">%&gt;%</span> <span class="fu">count</span>(class, survived)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(titanic_survived, <span class="fu">aes</span>(<span class="at">x =</span> class, <span class="at">y =</span> n, <span class="at">fill =</span> survived)) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>(<span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>)) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n, <span class="at">color =</span> survived),  <span class="co"># use 'color' aesthetic mapped to 'survived'</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">position =</span> <span class="fu">position_dodge</span>(<span class="at">width =</span> <span class="fl">0.8</span>), </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">hjust =</span> <span class="sc">-</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Survival by Class"</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Survived"</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Survived"</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week4Lab_files/figure-html/dodged-bar-chart-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="mosaic-plot-alternative-heatmap-with-matching-label-colors" class="level2">
+<h2 class="anchored" data-anchor-id="mosaic-plot-alternative-heatmap-with-matching-label-colors">1.3 Mosaic Plot (Alternative: Heatmap with Matching Label Colors)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>heatmap_data <span class="ot">&lt;-</span> titanic <span class="sc">%&gt;%</span> <span class="fu">count</span>(class, survived)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(heatmap_data, <span class="fu">aes</span>(<span class="at">x =</span> class, <span class="at">y =</span> survived, <span class="at">fill =</span> survived)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> n, <span class="at">color =</span> survived), <span class="at">fontface =</span> <span class="st">"bold"</span>) <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Heatmap of Class vs Survival"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">fill =</span> <span class="st">"Survived"</span>,</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Survived"</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week4Lab_files/figure-html/heatmap-alternative-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="find-a-data-set-to-demonstrate-semantically-correct-aesthetic-mappings" class="level1">
+<h1>2 Find a Data Set to Demonstrate Semantically Correct Aesthetic Mappings</h1>
+<section id="a.-provide-the-data-url" class="level2">
+<h2 class="anchored" data-anchor-id="a.-provide-the-data-url">a. Provide the data URL</h2>
+<p>The dataset used in this analysis is publicly available from Our World in Data:</p>
+<p><a href="https://raw.githubusercontent.com/owid/covid-19-data/refs/heads/master/public/data/owid-covid-data.csv">owid-covid-data.csv</a></p>
+</section>
+<section id="b.-briefly-summarize-the-scope-origin-and-key-variables-of-your-data-set-in-your-own-words" class="level2">
+<h2 class="anchored" data-anchor-id="b.-briefly-summarize-the-scope-origin-and-key-variables-of-your-data-set-in-your-own-words">b. Briefly summarize the scope, origin, and key variables of your data set in your own words</h2>
+<p>This dataset provides comprehensive daily COVID-19 data for countries and regions worldwide, sourced from official government and health ministry reports. It includes key variables such as the total number of COVID-19 cases per million people, total vaccinations administered per hundred people, population size, and continent information. The data is continually updated to reflect the evolving pandemic situation.</p>
+</section>
+<section id="c.-use-ggplot2-and-any-necessary-add-on-package-to-produce-a-single-plot-incorporating-at-least-two-out-of-three-aesthetic-mapping-categories-listed-in-section-2.1.-choose-any-plot-type-that-best-illustrates-your-variables." class="level2">
+<h2 class="anchored" data-anchor-id="c.-use-ggplot2-and-any-necessary-add-on-package-to-produce-a-single-plot-incorporating-at-least-two-out-of-three-aesthetic-mapping-categories-listed-in-section-2.1.-choose-any-plot-type-that-best-illustrates-your-variables.">c.&nbsp;Use ggplot2 (and any necessary add-on package) to produce a single plot incorporating at least two out of three aesthetic mapping categories listed in Section 2.1. Choose any plot type that best illustrates your variables.</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://raw.githubusercontent.com/owid/covid-19-data/refs/heads/master/public/data/owid-covid-data.csv"</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>covid_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to most recent date per country</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>covid_latest <span class="ot">&lt;-</span> covid_data <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(location) <span class="sc">%&gt;%</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Arrange by descending date so first non-NA row will be the most recent valid one</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(date)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Find the first row with no NAs in all relevant columns</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(continent),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(total_cases_per_million),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(total_vaccinations_per_hundred),</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    <span class="sc">!</span><span class="fu">is.na</span>(population)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">slice</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Select relevant columns and filter out NA values</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>covid_plot_data <span class="ot">&lt;-</span> covid_latest <span class="sc">%&gt;%</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(location, continent, population, total_cases_per_million, total_vaccinations_per_hundred) </span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(covid_plot_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Rows: 2,208
-Columns: 14
-$ id                  &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15,…
-$ fam_name            &lt;chr&gt; "Abbing", "Abbott", "Abbott", "Abbott", "Abbott", …
-$ given_name          &lt;chr&gt; "Anthony", "Ernest Owen", "Eugene Joseph", "Rhoda …
-$ age                 &lt;dbl&gt; 41, 21, 13, 39, 16, 16, 25, 28, 30, 45, 38, 19, 27…
-$ class               &lt;chr&gt; "3rd", "Crew", "3rd", "3rd", "3rd", "3rd", "3rd", …
-$ sex                 &lt;chr&gt; "Male", "Male", "Male", "Female", "Male", "Female"…
-$ survived            &lt;lgl&gt; FALSE, FALSE, FALSE, TRUE, FALSE, TRUE, TRUE, TRUE…
-$ ticket              &lt;chr&gt; "5547", NA, "CA2673", "CA2673", "CA2673", "348125"…
-$ embarkation_port    &lt;chr&gt; "Southampton", "Southampton", "Southampton", "Sout…
-$ profession          &lt;chr&gt; "Blacksmith", "Lounge Pantry Steward", "Scholar", …
-$ job_on_board        &lt;chr&gt; NA, "Victualling Crew", NA, NA, NA, NA, NA, NA, NA…
-$ lifeboat            &lt;chr&gt; NA, NA, NA, "A", NA, "16", "A", NA, NA, NA, NA, NA…
-$ certain_on_lifeboat &lt;lgl&gt; NA, NA, NA, TRUE, NA, FALSE, TRUE, NA, NA, NA, NA,…
-$ recovered_body      &lt;dbl&gt; NA, NA, NA, NA, 190, NA, NA, NA, NA, 312, NA, 9, N…</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(titanic)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 6 × 14
-     id fam_name given_name     age class sex   survived ticket embarkation_port
-  &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;    &lt;chr&gt;  &lt;chr&gt;           
-1     1 Abbing   Anthony         41 3rd   Male  FALSE    5547   Southampton     
-2     2 Abbott   Ernest Owen     21 Crew  Male  FALSE    &lt;NA&gt;   Southampton     
-3     3 Abbott   Eugene Jose…    13 3rd   Male  FALSE    CA2673 Southampton     
-4     4 Abbott   Rhoda Mary …    39 3rd   Fema… TRUE     CA2673 Southampton     
-5     5 Abbott   Rossmore Ed…    16 3rd   Male  FALSE    CA2673 Southampton     
-6     6 Abelseth Kalle (Kare…    16 3rd   Fema… TRUE     348125 Southampton     
-# ℹ 5 more variables: profession &lt;chr&gt;, job_on_board &lt;chr&gt;, lifeboat &lt;chr&gt;,
-#   certain_on_lifeboat &lt;lgl&gt;, recovered_body &lt;dbl&gt;</code></pre>
+<pre><code>Rows: 213
+Columns: 5
+$ location                       &lt;chr&gt; "Afghanistan", "Albania", "Algeria", "A…
+$ continent                      &lt;chr&gt; "Asia", "Europe", "Africa", "Europe", "…
+$ population                     &lt;dbl&gt; 41128772, 2842318, 44903228, 79843, 355…
+$ total_cases_per_million        &lt;dbl&gt; 5677.22, 118152.58, 5946.38, 602280.44,…
+$ total_vaccinations_per_hundred &lt;dbl&gt; 55.84, 108.68, 34.00, 196.73, 78.17, 15…</code></pre>
 </div>
 </div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(covid_latest, <span class="fu">aes</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">x =</span> total_vaccinations_per_hundred,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">y =</span> total_cases_per_million,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">color =</span> continent,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">size =</span> population</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">12</span>), <span class="at">guide =</span> <span class="st">"legend"</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"COVID-19: Vaccinations vs Cases by Country"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Total Vaccinations per 100 people"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Total COVID-19 Cases per Million"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">"Continent"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">size =</span> <span class="st">"Population"</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Coral_P2_Week4Lab_files/figure-html/covid-plot-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="d.-for-each-aesthetic-mapping-explain-why-it-is-appropriate-referencing-the-variable-nature-and-perceptual-best-practices." class="level2">
+<h2 class="anchored" data-anchor-id="d.-for-each-aesthetic-mapping-explain-why-it-is-appropriate-referencing-the-variable-nature-and-perceptual-best-practices.">d.&nbsp;For each aesthetic mapping, explain why it is appropriate, referencing the variable nature and perceptual best practices.</h2>
+<ul>
+<li><p>Color (continent): The continent variable is categorical, representing geographic regions. Using color to differentiate continents is appropriate because color is a highly effective way to visually distinguish categories, making it easier to compare regional patterns.</p></li>
+<li><p>Size (population): Population is an extensive numeric variable indicating country size. Mapping population to point size leverages the perceptual ability to compare magnitudes through area, effectively conveying how population scale relates to vaccination and case numbers.</p></li>
+</ul>
+</section>
+<section id="e.-state-the-main-insight-or-conclusion-the-reader-should-draw-from-your-visualization." class="level2">
+<h2 class="anchored" data-anchor-id="e.-state-the-main-insight-or-conclusion-the-reader-should-draw-from-your-visualization.">e. State the main insight or conclusion the reader should draw from your visualization.</h2>
+<p>The plot reveals a general trend that countries with higher vaccination rates tend to have varied case numbers, but continent-specific clusters appear—suggesting regional differences in pandemic dynamics and vaccine rollout. Additionally, larger countries (indicated by point size) show diverse pandemic outcomes, highlighting the complex relationship between population size, case counts, and vaccination coverage.</p>
 </section>
 </section>
 
@@ -265,6 +374,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -375,6 +486,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
