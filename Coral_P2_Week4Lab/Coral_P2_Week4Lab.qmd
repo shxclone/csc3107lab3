@@ -1,7 +1,8 @@
 ---
-title: "Team Coral_P2_Week 4 Lab"
-author: "Team Coral"
+title: "Coral_P2_Week4Lab"
+author: "`MIKO LIM YU HUI`, `TOH ZHENG YAN`, `LIM LIANG FAN`, `LIM JING CHUAN JONATHAN`, `HUANG WAN YING`, `TEE YU CHENG`, `ONG JIA EN DARRYL`"
 format: html
+date: "27 May 2025"
 editor: visual
 ---
 
@@ -11,8 +12,6 @@ library(tidyverse)
 ```
 
 # 1 Visualizing the Distribution of Travelers on the Titanic
-
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
 
 ## 1.1 Bar Chart of Travelers by Class
 

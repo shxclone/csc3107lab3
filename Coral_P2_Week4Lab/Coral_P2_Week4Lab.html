@@ -121,11 +121,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <section id="visualizing-the-distribution-of-travelers-on-the-titanic" class="level1">
 <h1>1 Visualizing the Distribution of Travelers on the Titanic</h1>
+<<<<<<< HEAD
 <p>Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <a href="https://quarto.org" class="uri">https://quarto.org</a>.</p>
 <section id="bar-chart-of-travelers-by-class" class="level2">
 <h2 class="anchored" data-anchor-id="bar-chart-of-travelers-by-class">1.1 Bar Chart of Travelers by Class</h2>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"titanic.csv"</span>)</span>
+=======
+<section id="bar-chart-of-travelers-by-class" class="level2">
+<h2 class="anchored" data-anchor-id="bar-chart-of-travelers-by-class">1.1 Bar Chart of Travelers by Class</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/titanic.csv"</span>)</span>
+>>>>>>> refs/remotes/origin/main
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>titanic_count <span class="ot">&lt;-</span> titanic <span class="sc">%&gt;%</span> <span class="fu">count</span>(class)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(titanic_count, <span class="fu">aes</span>(<span class="at">x =</span> class, <span class="at">y =</span> n)) <span class="sc">+</span></span>
@@ -200,6 +207,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><img src="Coral_P2_Week4Lab_files/figure-html/heatmap-alternative-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
+<<<<<<< HEAD
 </div>
 </div>
 </section>
@@ -249,6 +257,8 @@ $ continent                      &lt;chr&gt; "Asia", "Europe", "Africa", "Europe
 $ population                     &lt;dbl&gt; 41128772, 2842318, 44903228, 79843, 355…
 $ total_cases_per_million        &lt;dbl&gt; 5677.22, 118152.58, 5946.38, 602280.44,…
 $ total_vaccinations_per_hundred &lt;dbl&gt; 55.84, 108.68, 34.00, 196.73, 78.17, 15…</code></pre>
+=======
+>>>>>>> refs/remotes/origin/main
 </div>
 </div>
 <div class="cell">
