@@ -68,16 +68,113 @@ ggplot(titanic_survived, aes(x = class, y = n, fill = survived)) +
 
 heatmap_data <- titanic %>% count(class, survived)
 
-ggplot(heatmap_data, aes(x = class, y = survived, fill = survived)) +
-  geom_tile(color = "white") +
-  geom_text(aes(label = n, color = survived), fontface = "bold") +
+# Count the number of people per class and survival
+titanic_counts <- titanic %>%
+  count(class, survived)
+
+# Compute total count
+total_passengers <- sum(titanic_counts$n)
+
+# Calculate the width (x) ranges per class
+class_props <- titanic_counts %>%
+  group_by(class) %>%
+  summarise(class_total = sum(n)) %>%
+  mutate(
+    xmin = lag(cumsum(class_total / total_passengers), default = 0),
+    xmax = cumsum(class_total / total_passengers)
+  )
+
+# Join back to main data and compute height (y) ranges
+mosaic_data <- titanic_counts %>%
+  left_join(class_props, by = "class") %>%
+  group_by(class) %>%
+  mutate(
+    proportion = n / sum(n),
+    ymin = lag(cumsum(proportion), default = 0),
+    ymax = cumsum(proportion)
+  )
+
+# Create the plot
+ggplot(mosaic_data) +
+  geom_rect(aes(xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax, fill = survived), color = "white") +
+  geom_text(
+    aes(x = (xmin + xmax) / 2, y = (ymin + ymax) / 2, label = n),
+    color = "black", fontface = "bold"
+  ) +
+  scale_x_continuous(
+    breaks = (class_props$xmin + class_props$xmax) / 2,
+    labels = class_props$class
+  ) +
+  scale_y_continuous(
+    breaks = c(0.25, 0.75),
+    labels = c("FALSE", "TRUE")
+  ) +
   labs(
-    title = "Heatmap of Class vs Survival",
-    fill = "Survived",
-    color = "Survived"
+    title = "Titanic Travelers by Class and Survival",
+    x = "Class",
+    y = "Survived",
+    caption = "Source: Encyclopedia Titanica (2023)"
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+```
+
+## 1.4 Pros and Cons of Mosaic Plots
+
+**Advantage:** Mosaic plots provide a clear visual representation of the relative proportions of each subgroup in a contingency table. In the Titanic example, the mosaic layout simultaneously shows both the total size of each class and the proportion of survivors and non-survivors within each class. This makes it easier to compare survival rates across different passenger classes in terms of both absolute and relative frequencies.
+
+**Disadvantage:** Mosaic plots can be harder to interpret for audiences unfamiliar with them. The irregular tile sizes and dual-axis encoding (area = count) are less intuitive than standard bar charts. Also, exact values and differences between small subgroups may be visually ambiguous without labels, and mosaic plots are less effective when you want to emphasize the raw numbers rather than proportional relationships.
+
+## 1.5 Alternative Visualization (Alluvial Plot)
+
+```{r}
+#| label: alluvial_stacked-bar-chart-alternative
+
+library(ggalluvial)
+library(dplyr)
+
+# Prepare data
+titanic_alluvial <- titanic %>%
+  count(class, survived) %>%
+  mutate(label = n)
+
+# Alluvial plot
+ggplot(titanic_alluvial, aes(axis1 = class, axis2 = survived, y = n)) +
+  geom_alluvium(aes(fill = survived), width = 1/12, alpha = 0.8) +
+  geom_stratum(width = 1/12, fill = "grey90", color = "black") +
+  geom_text(
+    stat = "stratum",
+    aes(label = after_stat(stratum)),
+    size = 4,
+    check_overlap = TRUE
+  ) +
+  scale_x_discrete(limits = c("Class", "Survived"), expand = c(.05, .05)) +
+  scale_fill_manual(values = c("TRUE" = "#66c2a5", "FALSE" = "#fc8d62")) +
+  labs(
+    title = "Passenger Flow from Class to Survival Outcome",
+    y = "Number of Passengers",
+    fill = "Survived"
   ) +
   theme_minimal()
+
 ```
+**Advantages**:
+
+-   Shows both **category sizes** and **directional relationships** in one coherent flow.
+
+-   Makes it easier to trace **how different classes contributed to each survival outcome**, something that segmented or stacked bar charts can’t show as clearly.
+
+<!-- -->
+
+-    More engaging and **visually appealing**, which can improve audience attention in presentations.
+
+**Disadvantages:**
+
+-   **Harder to read exact quantities** without labels; thickness of ribbons can be misleading if not annotated properly.
+
+-   Can be **more challenging to construct and interpret**, especially for audiences unfamiliar with this plot type.
+
+-   Bar charts are better at showing **precise comparisons** between individual group sizes, while mosaic plots better emphasize **proportions within groups**.
 
 # 2 Find a Data Set to Demonstrate Semantically Correct Aesthetic Mappings
 
