@@ -179,6 +179,7 @@ ggplot(titanic_alluvial, aes(axis1 = class, axis2 = survived, y = n)) +
 # 2 Find a Data Set to Demonstrate Semantically Correct Aesthetic Mappings
 
 ## a. Provide the data URL
+
 The dataset used in this analysis is publicly available from Our World in Data:
 
 [owid-covid-data.csv](https://raw.githubusercontent.com/owid/covid-19-data/refs/heads/master/public/data/owid-covid-data.csv)
@@ -190,17 +191,17 @@ This dataset provides comprehensive daily COVID-19 data for countries and region
 ## c. Use ggplot2 (and any necessary add-on package) to produce a single plot incorporating at least two out of three aesthetic mapping categories listed in Section 2.1. Choose any plot type that best illustrates your variables.
 
 ```{r}
-#| label: load-dataset
+#| label: covid-plot
+#| message: false
+#| warning: false
 
 url <- "https://raw.githubusercontent.com/owid/covid-19-data/refs/heads/master/public/data/owid-covid-data.csv"
 covid_data <- read_csv(url)
 
-# Filter to most recent date per country
+# Filter to most recent complete data per country
 covid_latest <- covid_data %>%
   group_by(location) %>%
-  # Arrange by descending date so first non-NA row will be the most recent valid one
   arrange(desc(date)) %>%
-  # Find the first row with no NAs in all relevant columns
   filter(
     !is.na(continent),
     !is.na(total_cases_per_million),
@@ -210,55 +211,67 @@ covid_latest <- covid_data %>%
   slice(1) %>%
   ungroup()
 
-# Select relevant columns and filter out NA values
-covid_plot_data <- covid_latest %>%
-  select(location, continent, population, total_cases_per_million, total_vaccinations_per_hundred) 
+# Create vaccination level category
+covid_latest <- covid_latest %>%
+  mutate(vaccination_level = case_when(
+    total_vaccinations_per_hundred <= 40 ~ "Low",
+    total_vaccinations_per_hundred <= 70 ~ "Medium",
+    TRUE ~ "High"
+  )) %>%
+  mutate(vaccination_level = factor(vaccination_level, levels = c("Low", "Medium", "High")))
 
-glimpse(covid_plot_data)
-```
-
-```{r}
-#| label: covid-plot
-
+# Enhanced plot
 ggplot(covid_latest, aes(
   x = total_vaccinations_per_hundred,
   y = total_cases_per_million,
   color = continent,
-  size = population
+  size = population,
+  shape = vaccination_level
 )) +
-  geom_point(alpha = 0.7) +
+  geom_point(alpha = 0.75) +
   scale_size(range = c(1, 12), guide = "legend") +
+  scale_color_brewer(palette = "Set2") +
   labs(
     title = "COVID-19: Vaccinations vs Cases by Country",
+    subtitle = "Shape by Vaccination Level, Color by Continent, Size by Population",
     x = "Total Vaccinations per 100 people",
     y = "Total COVID-19 Cases per Million",
     color = "Continent",
-    size = "Population"
+    shape = "Vaccination Level",
+    size = "Population",
+    caption = "Source: Our World in Data"
   ) +
   theme_minimal()
 ```
 
 ## d. For each aesthetic mapping, explain why it is appropriate, referencing the variable nature and perceptual best practices.
-* Color (continent): The continent variable is categorical, representing geographic regions. Using color to differentiate continents is appropriate because color is a highly effective way to visually distinguish categories, making it easier to compare regional patterns.
-	
-* Size (population): Population is an extensive numeric variable indicating country size. Mapping population to point size leverages the perceptual ability to compare magnitudes through area, effectively conveying how population scale relates to vaccination and case numbers.
+
+-   Color (continent): The continent variable is categorical, representing geographic regions. Using color to differentiate continents is appropriate because color is a highly effective way to visually distinguish categories, making it easier to compare regional patterns.
+
+-   Size (population): Population is an extensive numeric variable indicating country size. Mapping population to point size leverages the perceptual ability to compare magnitudes through area, effectively conveying how population scale relates to vaccination and case numbers.
 
 ## e. State the main insight or conclusion the reader should draw from your visualization.
+
 The plot reveals a general trend that countries with higher vaccination rates tend to have varied case numbers, but continent-specific clusters appear—suggesting regional differences in pandemic dynamics and vaccine rollout. Additionally, larger countries (indicated by point size) show diverse pandemic outcomes, highlighting the complex relationship between population size, case counts, and vaccination coverage.
 
 # 3 Reflections
 
 ## 1. Key takeaway: What is one thing you learned in today’s lab? Explain why this point stood out to you
+
 We learned how to effectively combine multiple aesthetic mappings (color and size) in a single ggplot2 visualization to reveal complex relationships in real-world data. This stood out because it demonstrated how to encode multiple dimensions visually while maintaining clarity.
 
 ## 2. Challenges: What did you find confusing or difficult?
+
 Filtering the dataset to include only the latest, complete records per country was tricky, especially handling missing values in a time series dataset. Understanding how to clean the data for accurate plotting took some effort.
 
 ## 3. AI assistance: If you used any generative AI tools (e.g., ChatGPT or GitHub Copilot), explain how they helped
+
 We used ChatGPT to help us better understand the rationale behind mapping population size to point size and continent to color in our plot. The AI helped clarify the perceptual and statistical reasoning for these choices and provided guidance on how to explain these concepts clearly in our assignment.
 
 ## 4. Teamwork: How did your team collaborate on this assignment? Identify one strength and one area for improvement
+
 Our team communicated well, dividing tasks like data sourcing and coding, which made the work efficient. One area to improve is better coordination on troubleshooting data issues earlier in the process.
 
-##5. Additional feedback (optional): Any other comments on this module or the exercise
+## 5. Additional feedback (optional): Any other comments on this module or the exercise 
+
 This exercise was valuable for applying data wrangling and visualization skills in RStudio with Quarto
