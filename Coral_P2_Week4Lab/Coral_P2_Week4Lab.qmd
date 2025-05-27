@@ -1,0 +1,42 @@
+---
+title: "Coral_P2_Week4Lab"
+author: "`MIKO LIM YU HUI`, `TOH ZHENG YAN`, `LIM LIANG FAN`, `LIM JING CHUAN JONATHAN`, `HUANG WAN YING`, `TEE YU CHENG`, `ONG JIA EN DARRYL`"
+format: html
+date: "27 May 2025"
+editor: visual
+---
+
+```{r}
+#| label: load-libraries
+#| message: false
+#| warning: false
+
+# Load necessary packages
+library(tidyverse)
+library(ggmosaic)  # For mosaic plots
+library(readr)     # For reading CSV files
+library(here)      # For file paths
+
+# Set theme for consistent plotting
+theme_set(theme_minimal())
+```
+
+# Section 1: Visualizing the Distribution of Travelers on the Titanic
+
+## Load the Titanic Data
+
+```{r}
+#| label: load-data
+
+# Load the Titanic dataset
+# Replace with the actual URL from Prof. Gastner's website
+titanic_url <- "titanic.csv"  # URL which contains the csv data
+titanic <- read_csv(titanic_url)
+
+# If you have the file locally, use:
+# titanic <- read_csv("titanic.csv")
+
+# Examine the structure of the data
+glimpse(titanic)
+head(titanic)
+```
